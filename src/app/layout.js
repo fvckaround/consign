@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
+import PWARegister from "@/components/PWARegister";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -22,11 +23,16 @@ export const metadata = {
     "Safe, reliable and cost-effective consignment shipping across the globe. Real-time tracking, safe handling, on-time delivery.",
 };
 
+export const viewport = {
+  themeColor: "#111111",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${fraunces.variable} ${manrope.variable} antialiased`}>
         <Providers>
+          <PWARegister />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />
