@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import PWARegister from "@/components/PWARegister";
 import InstallPWA from "@/components/InstallPWA";
+import TawkChat from "@/components/TawkChat";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <PWARegister />
           <InstallPWA />
+          <TawkChat />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />

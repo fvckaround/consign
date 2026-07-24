@@ -64,8 +64,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={16} className="shrink-0 text-brand" />
-                <a href="mailto:support@consigndrop.com" className="transition hover:text-brand">
-                  support@consigndrop.com
+                <a href="mailto:consigndrop@outlook.com" className="transition hover:text-brand">
+                  consigndrop@outlook.com
                 </a>
               </li>
               <li className="flex items-start gap-3">

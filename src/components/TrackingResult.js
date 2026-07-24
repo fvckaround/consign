@@ -10,8 +10,8 @@ import {
   Circle,
   Truck,
   AlertTriangle,
-  Phone,
   Mail,
+  MessageCircle,
 } from "lucide-react";
 
 const statusColors = {
@@ -63,19 +63,19 @@ export default function TrackingResult({ shipment }) {
                 regarding this hold and the next steps to release your
                 shipment.
               </p>
-              <div className="mt-3 flex flex-col gap-2 text-[13.5px] font-bold text-red-700 sm:flex-row sm:gap-5">
+              <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
                 <a
-                  href="mailto:support@consigndrop.com"
-                  className="flex items-center gap-2 transition hover:text-red-900"
+                  href="mailto:consigndrop@outlook.com"
+                  className="flex items-center justify-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-[13.5px] font-bold text-white transition hover:bg-red-700"
                 >
-                  <Mail size={15} /> support@consigndrop.com
+                  <Mail size={15} /> Email Support
                 </a>
-                <a
-                  href="tel:18001234567"
-                  className="flex items-center gap-2 transition hover:text-red-900"
+                <button
+                  onClick={() => window.Tawk_API?.maximize?.()}
+                  className="flex items-center justify-center gap-2 rounded-full border border-red-300 bg-white px-5 py-2.5 text-[13.5px] font-bold text-red-700 transition hover:bg-red-100"
                 >
-                  <Phone size={15} /> 1800-123-4567
-                </a>
+                  <MessageCircle size={15} /> Live Chat
+                </button>
               </div>
             </div>
           </div>

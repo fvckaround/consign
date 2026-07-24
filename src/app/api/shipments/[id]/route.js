@@ -84,8 +84,8 @@ export async function PUT(request, { params }) {
                 Your shipment has been placed on hold. Please contact our support team as soon as possible for further information regarding this hold and the next steps to release your shipment.
               </p>
               <p style="margin:10px 0 0;color:#7A271A;">
-                <strong>Email:</strong> support@consigndrop.com<br/>
-                <strong>Phone:</strong> 1800-123-4567
+                <strong>Email:</strong> consigndrop@outlook.com<br/>
+                <strong>Live Chat:</strong> available on consigndrop.com
               </p>
             </div>
           `;
@@ -94,7 +94,7 @@ export async function PUT(request, { params }) {
           return `<p style="margin:0 0 18px;">Your shipment has been delivered successfully. Thank you for shipping with ConsignDrop!</p>`;
         }
         if (shipment.status === "Cancelled") {
-          return `<p style="margin:0 0 18px;">This shipment has been cancelled. If you believe this is an error or have any questions, please contact our support team at support@consigndrop.com.</p>`;
+          return `<p style="margin:0 0 18px;">This shipment has been cancelled. If you believe this is an error or have any questions, please contact our support team at consigndrop@outlook.com.</p>`;
         }
         return "";
       };

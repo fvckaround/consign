@@ -23,7 +23,7 @@ const info = [
   {
     icon: Mail,
     title: "Email Us",
-    lines: ["support@consigndrop.com"],
+    lines: ["consigndrop@outlook.com"],
   },
   {
     icon: Clock,
