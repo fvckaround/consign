@@ -75,6 +75,30 @@ export async function PUT(request, { params }) {
 
     // Email on status change
     if (statusChanged) {
+      const statusExtra = () => {
+        if (shipment.status === "On Hold") {
+          return `
+            <div style="background:#FDECEC;border:1px solid #F5C6C6;border-radius:14px;padding:16px 20px;margin:0 0 18px;">
+              <p style="margin:0;color:#B42318;font-weight:700;">⚠ Action required</p>
+              <p style="margin:8px 0 0;color:#7A271A;">
+                Your shipment has been placed on hold. Please contact our support team as soon as possible for further information regarding this hold and the next steps to release your shipment.
+              </p>
+              <p style="margin:10px 0 0;color:#7A271A;">
+                <strong>Email:</strong> support@consigndrop.com<br/>
+                <strong>Phone:</strong> 1800-123-4567
+              </p>
+            </div>
+          `;
+        }
+        if (shipment.status === "Delivered") {
+          return `<p style="margin:0 0 18px;">Your shipment has been delivered successfully. Thank you for shipping with ConsignDrop!</p>`;
+        }
+        if (shipment.status === "Cancelled") {
+          return `<p style="margin:0 0 18px;">This shipment has been cancelled. If you believe this is an error or have any questions, please contact our support team at support@consigndrop.com.</p>`;
+        }
+        return "";
+      };
+
       const html = (name) => `
         <h2 style="margin:0 0 12px;">Hi ${name},</h2>
         <p>Your shipment <strong style="color:#F26A1B;">${shipment.trackingId}</strong> has a new update:</p>
@@ -83,6 +107,7 @@ export async function PUT(request, { params }) {
           ${shipment.currentLocation ? `<p style="margin:0 0 6px;"><strong>Location:</strong> ${shipment.currentLocation}</p>` : ""}
           <p style="margin:0;"><strong>Route:</strong> ${shipment.origin} → ${shipment.destination}</p>
         </div>
+        ${statusExtra()}
         <p>Track it anytime at consigndrop.com/track</p>
       `;
 

@@ -9,6 +9,9 @@ import {
   CheckCircle2,
   Circle,
   Truck,
+  AlertTriangle,
+  Phone,
+  Mail,
 } from "lucide-react";
 
 const statusColors = {
@@ -43,6 +46,42 @@ export default function TrackingResult({ shipment }) {
       transition={{ duration: 0.5 }}
       className="mx-auto mt-10 max-w-3xl"
     >
+      {/* On Hold alert */}
+      {shipment.status === "On Hold" && (
+        <div className="mb-6 rounded-3xl border border-red-200 bg-red-50 p-6 sm:p-7">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-100">
+              <AlertTriangle size={22} className="text-red-600" />
+            </div>
+            <div>
+              <p className="text-[15.5px] font-extrabold text-red-700">
+                Action required — shipment on hold
+              </p>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-red-800/80">
+                This shipment has been placed on hold. Please contact our
+                support team as soon as possible for further information
+                regarding this hold and the next steps to release your
+                shipment.
+              </p>
+              <div className="mt-3 flex flex-col gap-2 text-[13.5px] font-bold text-red-700 sm:flex-row sm:gap-5">
+                <a
+                  href="mailto:support@consigndrop.com"
+                  className="flex items-center gap-2 transition hover:text-red-900"
+                >
+                  <Mail size={15} /> support@consigndrop.com
+                </a>
+                <a
+                  href="tel:18001234567"
+                  className="flex items-center gap-2 transition hover:text-red-900"
+                >
+                  <Phone size={15} /> 1800-123-4567
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header card */}
       <div className="rounded-3xl border border-ink/5 bg-white p-6 shadow-sm sm:p-8">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
@@ -145,7 +184,6 @@ export default function TrackingResult({ shipment }) {
           <div className="mt-6 space-y-0">
             {checkpoints.map((cp, i) => (
               <div key={cp._id || i} className="relative flex gap-4 pb-8 last:pb-0">
-                {/* line */}
                 {i < checkpoints.length - 1 && (
                   <span className="absolute left-[11px] top-7 h-full w-0.5 bg-ink/10" />
                 )}
