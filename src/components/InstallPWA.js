@@ -4,8 +4,18 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, X, Share } from "lucide-react";
 
+// Capture the event as early as possible, outside React's render cycle
+if (typeof window !== "undefined" && !window.__pwaPromptHandlerAttached) {
+  window.__pwaPromptHandlerAttached = true;
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    window.__deferredPWAPrompt = e;
+    window.dispatchEvent(new Event("pwa-install-ready"));
+  });
+}
+
 export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [ready, setReady] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [showIOSHelp, setShowIOSHelp] = useState(false);
@@ -29,23 +39,28 @@ export default function InstallPWA() {
       return () => clearTimeout(t);
     }
 
-    const handler = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setTimeout(() => setShowButton(true), 3000);
-    };
+    // Already captured before this component mounted?
+    if (window.__deferredPWAPrompt) {
+      setReady(true);
+      setTimeout(() => setShowButton(true), 1500);
+      return;
+    }
 
-    window.addEventListener("beforeinstallprompt", handler);
+    // Otherwise wait for it
+    const onReady = () => {
+      setReady(true);
+      setTimeout(() => setShowButton(true), 1500);
+    };
+    window.addEventListener("pwa-install-ready", onReady);
 
     const installedHandler = () => {
       setInstalled(true);
       setShowButton(false);
-      setDeferredPrompt(null);
     };
     window.addEventListener("appinstalled", installedHandler);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handler);
+      window.removeEventListener("pwa-install-ready", onReady);
       window.removeEventListener("appinstalled", installedHandler);
     };
   }, []);
@@ -55,14 +70,15 @@ export default function InstallPWA() {
       setShowIOSHelp(true);
       return;
     }
-    if (!deferredPrompt) return;
+    const prompt = window.__deferredPWAPrompt;
+    if (!prompt) return;
 
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
     if (outcome === "accepted") {
       setShowButton(false);
     }
-    setDeferredPrompt(null);
+    window.__deferredPWAPrompt = null;
   };
 
   const dismiss = (e) => {
@@ -73,7 +89,7 @@ export default function InstallPWA() {
   };
 
   if (installed) return null;
-  if (!isIOS && !deferredPrompt) return null;
+  if (!isIOS && !ready) return null;
 
   return (
     <AnimatePresence>
