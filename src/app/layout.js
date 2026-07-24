@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import PWARegister from "@/components/PWARegister";
+import InstallPWA from "@/components/InstallPWA";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }) {
       <body className={`${fraunces.variable} ${manrope.variable} antialiased`}>
         <Providers>
           <PWARegister />
+          <InstallPWA />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />
