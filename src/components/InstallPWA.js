@@ -96,7 +96,7 @@ export default function InstallPWA() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 40, scale: 0.9 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-5 right-5 z-[60]"
+          className="fixed bottom-5 left-5 z-[60]"
         >
           {showIOSHelp ? (
             <div className="relative w-72 rounded-3xl bg-ink p-5 text-white shadow-[0_16px_50px_rgba(17,17,17,0.35)]">
