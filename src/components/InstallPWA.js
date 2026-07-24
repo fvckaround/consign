@@ -6,9 +6,7 @@ import { Download, X, Share } from "lucide-react";
 
 if (typeof window !== "undefined" && !window.__pwaPromptHandlerAttached) {
   window.__pwaPromptHandlerAttached = true;
-  console.log("[PWA] listener attached at module load");
   window.addEventListener("beforeinstallprompt", (e) => {
-    console.log("[PWA] beforeinstallprompt FIRED");
     e.preventDefault();
     window.__deferredPWAPrompt = e;
     window.dispatchEvent(new Event("pwa-install-ready"));
@@ -23,10 +21,7 @@ export default function InstallPWA() {
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    console.log("[PWA] component mounted");
-
     if (window.matchMedia("(display-mode: standalone)").matches) {
-      console.log("[PWA] already installed, stopping");
       setInstalled(true);
       return;
     }
@@ -34,10 +29,8 @@ export default function InstallPWA() {
     const ios =
       /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
     setIsIOS(ios);
-    console.log("[PWA] isIOS:", ios);
 
     const dismissed = sessionStorage.getItem("pwa-banner-dismissed");
-    console.log("[PWA] dismissed flag:", dismissed);
     if (dismissed) return;
 
     if (ios) {
@@ -45,18 +38,13 @@ export default function InstallPWA() {
       return () => clearTimeout(t);
     }
 
-    console.log("[PWA] checking window.__deferredPWAPrompt:", window.__deferredPWAPrompt);
-
     if (window.__deferredPWAPrompt) {
-      console.log("[PWA] prompt already captured, showing button");
       setReady(true);
       setTimeout(() => setShowButton(true), 1500);
       return;
     }
 
-    console.log("[PWA] waiting for pwa-install-ready event");
     const onReady = () => {
-      console.log("[PWA] pwa-install-ready received, showing button");
       setReady(true);
       setTimeout(() => setShowButton(true), 1500);
     };
@@ -96,8 +84,6 @@ export default function InstallPWA() {
     setShowIOSHelp(false);
     sessionStorage.setItem("pwa-banner-dismissed", "1");
   };
-
-  console.log("[PWA] render — installed:", installed, "ready:", ready, "isIOS:", isIOS, "showButton:", showButton);
 
   if (installed) return null;
   if (!isIOS && !ready) return null;
